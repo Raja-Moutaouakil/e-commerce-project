@@ -1,4 +1,4 @@
-import { Leaf, Heart, Award, Users } from 'lucide-react';
+import { Leaf, Heart, Award, Users, Sparkles } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 
 const About = () => {
@@ -13,20 +13,20 @@ const About = () => {
                 Our Story
               </span>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold leading-tight animate-fade-up stagger-1">
-                Rooted in Nature,
-                <span className="block text-primary">Crafted with Care</span>
+                Natural Hair Care,
+                <span className="block text-primary">Rooted in Tradition</span>
               </h1>
               <p className="text-lg text-muted-foreground animate-fade-up stagger-2">
-                Since 2015, Botanica has been on a mission to bring the purest, most 
-                effective natural wellness products to your doorstep. We believe that 
-                nature holds the key to true wellness.
+                Botanica Hair was founded with a simple belief: your hair deserves the 
+                purest, most effective natural ingredients. We craft premium hair care 
+                products using time-honored recipes and the finest botanical extracts.
               </p>
             </div>
             <div className="relative animate-fade-up stagger-2">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop"
-                  alt="Our workshop"
+                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop"
+                  alt="Hair care products"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -43,21 +43,20 @@ const About = () => {
               Our Mission
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              To create thoughtfully formulated wellness products that harness the 
-              power of organic botanicals, while maintaining our commitment to 
-              sustainability and ethical sourcing. Every product we create is a 
-              testament to our belief that self-care should never come at the 
-              expense of our planet.
+              To empower people to embrace their natural hair with confidence by providing 
+              premium, all-natural hair care products. From nourishing oils like argan and 
+              jojoba to traditional ingredients like henna and sidr, we bring you the best 
+              of nature for healthy, beautiful hair.
             </p>
           </div>
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { icon: Leaf, value: '100%', label: 'Organic Ingredients' },
-              { icon: Users, value: '50K+', label: 'Happy Customers' },
-              { icon: Heart, value: '0', label: 'Animal Testing' },
-              { icon: Award, value: '15+', label: 'Industry Awards' },
+              { icon: Leaf, value: '100%', label: 'Natural Ingredients' },
+              { icon: Users, value: '25K+', label: 'Happy Customers' },
+              { icon: Heart, value: '0', label: 'Harmful Chemicals' },
+              { icon: Award, value: '20+', label: 'Premium Products' },
             ].map((stat, index) => (
               <div
                 key={stat.label}
@@ -84,14 +83,14 @@ const About = () => {
                 <div className="aspect-[3/4] rounded-2xl overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=500&fit=crop"
-                    alt="Natural ingredients"
+                    alt="Natural oils"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="aspect-[3/4] rounded-2xl overflow-hidden mt-8">
                   <img
-                    src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&h=500&fit=crop"
-                    alt="Product crafting"
+                    src="https://images.unsplash.com/photo-1608181831688-9b6c14230b65?w=400&h=500&fit=crop"
+                    alt="Hair butters"
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -109,22 +108,22 @@ const About = () => {
               <div className="space-y-6">
                 {[
                   {
-                    title: 'Transparency',
-                    description: 'We believe you deserve to know exactly what goes into every product. No hidden ingredients, no misleading claims.',
+                    title: 'Pure Ingredients',
+                    description: 'Every product contains only the finest natural ingredients - from aloe vera and sidr to premium oils and butters.',
                   },
                   {
-                    title: 'Sustainability',
-                    description: 'From sourcing to packaging, every decision we make considers its impact on our planet.',
+                    title: 'Hair Health First',
+                    description: 'We focus on long-term hair health, not quick fixes. Our products nourish from root to tip.',
                   },
                   {
-                    title: 'Quality First',
-                    description: 'We never compromise on quality. Each product undergoes rigorous testing to ensure it meets our high standards.',
+                    title: 'Quality Craftsmanship',
+                    description: 'Each product is carefully formulated and packaged with the Botanica Hair name you can trust.',
                   },
                   {
-                    title: 'Community',
-                    description: 'We support local farmers and communities who share our vision for a healthier, more sustainable world.',
+                    title: 'For All Hair Types',
+                    description: 'Whether curly, straight, thick, or fine - our products are designed to work beautifully on all hair types.',
                   },
-                ].map((value, index) => (
+                ].map((value) => (
                   <div key={value.title} className="flex gap-4">
                     <div className="w-1.5 h-1.5 mt-2.5 rounded-full bg-primary flex-shrink-0" />
                     <div>
@@ -143,52 +142,97 @@ const About = () => {
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Founder Section */}
       <section className="section-padding bg-background">
+        <div className="container-main">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <span className="text-sm font-medium text-primary uppercase tracking-wider">
+                Meet The Founder
+              </span>
+              <h2 className="text-3xl md:text-4xl font-serif font-semibold mt-2 mb-4">
+                The Visionary Behind Botanica Hair
+              </h2>
+            </div>
+            
+            <div className="bg-card rounded-3xl p-8 md:p-12">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                {/* Founder Icon */}
+                <div className="w-32 h-32 md:w-40 md:h-40 bg-secondary/30 rounded-full flex items-center justify-center flex-shrink-0">
+                  <Sparkles className="w-16 h-16 text-primary" />
+                </div>
+                
+                {/* Founder Info */}
+                <div className="text-center md:text-left space-y-4">
+                  <div>
+                    <h3 className="text-2xl md:text-3xl font-serif font-semibold">
+                      Raja Moutaouakil
+                    </h3>
+                    <p className="text-primary font-medium">
+                      Founder, CEO & Creator
+                    </p>
+                  </div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Raja Moutaouakil founded Botanica Hair with a passion for natural beauty 
+                    and a deep understanding of traditional hair care wisdom. Drawing from 
+                    generations of knowledge about natural ingredients like argan oil, henna, 
+                    and sidr, Raja created a brand that combines heritage with modern 
+                    formulations. Her vision is to make premium, natural hair care accessible 
+                    to everyone who wants to embrace their natural beauty.
+                  </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    "I believe that healthy, beautiful hair starts with nature's finest 
+                    ingredients. Every product we create is a reflection of my commitment 
+                    to quality and my love for natural hair care."
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Product Philosophy */}
+      <section className="section-padding bg-card">
         <div className="container-main text-center">
           <span className="text-sm font-medium text-primary uppercase tracking-wider">
-            Meet The Team
+            Our Products
           </span>
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mt-2 mb-4">
-            The People Behind Botanica
+            What Makes Us Different
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
-            Our dedicated team of botanists, formulators, and wellness enthusiasts 
-            work tirelessly to bring you the best nature has to offer.
+            Every Botanica Hair product is crafted with care and packaged with our 
+            signature branding you can trust.
           </p>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                name: 'Emma Chen',
-                role: 'Founder & CEO',
-                image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop',
+                icon: Leaf,
+                title: 'Natural Oils',
+                description: 'From argan to jojoba, coconut to castor - pure oils for every hair need.',
               },
               {
-                name: 'Dr. James Miller',
-                role: 'Head of R&D',
-                image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop',
+                icon: Heart,
+                title: 'Rich Butters',
+                description: 'Shea, cocoa, and mango butters for deep nourishment and moisture.',
               },
               {
-                name: 'Sofia Rodriguez',
-                role: 'Sustainability Director',
-                image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop',
+                icon: Award,
+                title: 'Premium Accessories',
+                description: 'Wooden brushes and satin bonnets designed for healthy hair care routines.',
               },
-            ].map((member, index) => (
+            ].map((item, index) => (
               <div
-                key={member.name}
-                className="group animate-fade-up"
+                key={item.title}
+                className="p-8 bg-background rounded-2xl shadow-card hover:shadow-hover transition-all duration-500 group animate-fade-up"
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-4">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-500" />
+                <div className="w-16 h-16 mx-auto mb-6 bg-secondary/30 rounded-2xl flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                  <item.icon className="w-7 h-7" />
                 </div>
-                <h3 className="font-serif text-xl font-semibold">{member.name}</h3>
-                <p className="text-muted-foreground text-sm">{member.role}</p>
+                <h3 className="text-xl font-serif font-semibold mb-3">{item.title}</h3>
+                <p className="text-muted-foreground text-sm">{item.description}</p>
               </div>
             ))}
           </div>
