@@ -67,7 +67,7 @@ const Index = () => {
             <div className="relative animate-fade-up stagger-2">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=1000&fit=crop"
+                  src="https://botanicalex.ma/cdn/shop/articles/4c2e60ac0045761f8b6124fe33f9168c.jpg?v=1696419923&width=1780"
                   alt="Natural hair care products"
                   className="w-full h-full object-cover"
                 />

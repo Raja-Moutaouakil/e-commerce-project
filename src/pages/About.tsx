@@ -25,7 +25,7 @@ const About = () => {
             <div className="relative animate-fade-up stagger-2">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop"
+                  src="https://images.unsplash.com/photo-1492552181161-62217fc3076d?q=80&w=1197&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   alt="Hair care products"
                   className="w-full h-full object-cover"
                 />
@@ -77,26 +77,8 @@ const About = () => {
       {/* Values Section */}
       <section className="section-padding bg-card">
         <div className="container-main">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=500&fit=crop"
-                    alt="Natural oils"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden mt-8">
-                  <img
-                    src="https://images.unsplash.com/photo-1608181831688-9b6c14230b65?w=400&h=500&fit=crop"
-                    alt="Hair butters"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2 space-y-8">
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-8">
               <div>
                 <span className="text-sm font-medium text-primary uppercase tracking-wider">
                   What We Believe
