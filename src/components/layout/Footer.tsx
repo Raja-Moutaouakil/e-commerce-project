@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Leaf, Mail, MapPin, Phone } from 'lucide-react';
+import { Droplets, Mail, MapPin, Phone } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -11,12 +11,12 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
-              <Leaf className="w-6 h-6 text-primary" />
-              <span className="text-2xl font-serif font-semibold">Botanica</span>
+              <Droplets className="w-6 h-6 text-primary" />
+              <span className="text-2xl font-serif font-semibold">Botanica Hair</span>
             </Link>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Natural wellness products for a balanced, sustainable lifestyle. 
-              Crafted with care from organic ingredients.
+              Premium natural hair care products for healthy, beautiful hair. 
+              Crafted with pure oils, butters, and botanical extracts.
             </p>
           </div>
 
@@ -41,7 +41,7 @@ const Footer = () => {
           <div>
             <h4 className="font-serif text-lg font-semibold mb-4">Categories</h4>
             <ul className="space-y-3">
-              {['Skincare', 'Essential Oils', 'Wellness', 'Home'].map(category => (
+              {['Oils', 'Butters', 'Shampoo & Conditioner', 'Accessories'].map(category => (
                 <li key={category}>
                   <Link
                     to="/products"
@@ -60,7 +60,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>123 Garden Lane, Nature City</span>
+                <span>123 Beauty Lane, Hair City</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
@@ -68,7 +68,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                <span>hello@botanica.com</span>
+                <span>hello@botanicahair.com</span>
               </li>
             </ul>
           </div>
@@ -78,7 +78,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} Botanica. All rights reserved.
+              © {currentYear} Botanica Hair. All rights reserved.
             </p>
             <div className="flex gap-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300">

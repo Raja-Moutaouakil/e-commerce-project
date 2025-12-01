@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Leaf, Sparkles, Heart } from 'lucide-react';
+import { ArrowRight, Leaf, Sparkles, Heart, Droplets } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import ProductCard from '@/components/products/ProductCard';
 import { products } from '@/data/products';
@@ -22,18 +22,18 @@ const Index = () => {
             {/* Content */}
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-background/80 backdrop-blur-sm rounded-full text-sm font-medium animate-fade-up">
-                <Leaf className="w-4 h-4 text-primary" />
-                <span>100% Natural & Organic</span>
+                <Droplets className="w-4 h-4 text-primary" />
+                <span>100% Natural Hair Care</span>
               </div>
               
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-semibold leading-tight animate-fade-up stagger-1">
-                Nature's Best
-                <span className="block text-primary">For Your Wellness</span>
+                Nourish Your Hair
+                <span className="block text-primary">Naturally</span>
               </h1>
               
               <p className="text-lg text-muted-foreground max-w-lg animate-fade-up stagger-2">
-                Discover our curated collection of organic wellness products, 
-                thoughtfully crafted to nurture your body and soul.
+                Discover our premium collection of natural hair care products - 
+                from nourishing oils to luxurious butters, crafted for healthy, beautiful hair.
               </p>
 
               <div className="flex flex-wrap gap-4 animate-fade-up stagger-3">
@@ -42,23 +42,23 @@ const Index = () => {
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link to="/about" className="btn-secondary">
-                  Learn More
+                  Our Story
                 </Link>
               </div>
 
               {/* Stats */}
               <div className="flex gap-8 pt-8 animate-fade-up stagger-4">
                 <div>
-                  <p className="text-3xl font-serif font-semibold text-foreground">200+</p>
+                  <p className="text-3xl font-serif font-semibold text-foreground">20+</p>
                   <p className="text-sm text-muted-foreground">Products</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-serif font-semibold text-foreground">50K+</p>
+                  <p className="text-3xl font-serif font-semibold text-foreground">25K+</p>
                   <p className="text-sm text-muted-foreground">Happy Customers</p>
                 </div>
                 <div>
                   <p className="text-3xl font-serif font-semibold text-foreground">100%</p>
-                  <p className="text-sm text-muted-foreground">Organic</p>
+                  <p className="text-sm text-muted-foreground">Natural</p>
                 </div>
               </div>
             </div>
@@ -67,8 +67,8 @@ const Index = () => {
             <div className="relative animate-fade-up stagger-2">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=800&h=1000&fit=crop"
-                  alt="Natural wellness products"
+                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=1000&fit=crop"
+                  alt="Natural hair care products"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
@@ -82,7 +82,7 @@ const Index = () => {
                   </div>
                   <div>
                     <p className="font-medium text-sm">Premium Quality</p>
-                    <p className="text-xs text-muted-foreground">Certified Organic</p>
+                    <p className="text-xs text-muted-foreground">Natural Ingredients</p>
                   </div>
                 </div>
               </div>
@@ -94,7 +94,7 @@ const Index = () => {
                   </div>
                   <div>
                     <p className="font-medium text-sm">Made with Love</p>
-                    <p className="text-xs text-muted-foreground">Sustainable Sourcing</p>
+                    <p className="text-xs text-muted-foreground">For All Hair Types</p>
                   </div>
                 </div>
               </div>
@@ -140,10 +140,10 @@ const Index = () => {
               Our Promise
             </span>
             <h2 className="text-3xl md:text-4xl font-serif font-semibold mt-2 mb-4">
-              Why Choose Botanica
+              Why Choose Botanica Hair
             </h2>
             <p className="text-muted-foreground">
-              We believe in the power of nature to heal, restore, and nurture.
+              We believe in the power of nature to transform your hair care routine.
             </p>
           </div>
 
@@ -151,18 +151,18 @@ const Index = () => {
             {[
               {
                 icon: Leaf,
-                title: '100% Organic',
-                description: 'All our products are made from certified organic ingredients.',
+                title: 'All Natural',
+                description: 'Pure oils, butters, and botanical extracts - no harmful chemicals.',
               },
               {
                 icon: Heart,
-                title: 'Cruelty Free',
-                description: 'Never tested on animals. Vegan-friendly formulations.',
+                title: 'Hair Health First',
+                description: 'Formulated to nourish and strengthen your hair from root to tip.',
               },
               {
                 icon: Sparkles,
-                title: 'Sustainable',
-                description: 'Eco-friendly packaging and sustainable sourcing practices.',
+                title: 'Premium Quality',
+                description: 'Carefully sourced ingredients and beautifully packaged products.',
               },
             ].map((value, index) => (
               <div
@@ -184,10 +184,10 @@ const Index = () => {
       <section className="section-padding bg-primary text-primary-foreground">
         <div className="container-main text-center">
           <h2 className="text-3xl md:text-4xl font-serif font-semibold mb-4">
-            Join Our Wellness Journey
+            Start Your Natural Hair Journey
           </h2>
           <p className="text-primary-foreground/80 max-w-xl mx-auto mb-8">
-            Subscribe to receive exclusive offers, wellness tips, and be the first 
+            Subscribe to receive exclusive offers, hair care tips, and be the first 
             to know about new products.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">

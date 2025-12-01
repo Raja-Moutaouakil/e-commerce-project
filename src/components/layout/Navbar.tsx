@@ -46,7 +46,7 @@ const Navbar = () => {
             to="/"
             className="text-2xl md:text-3xl font-serif font-semibold text-foreground hover:text-primary transition-colors duration-300"
           >
-            Botanica
+            Botanica Hair
           </Link>
 
           {/* Desktop Navigation */}
