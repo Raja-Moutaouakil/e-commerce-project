@@ -21,14 +21,14 @@ exports.getOrders = async (req, res) => {
 
 exports.getMyOrders = async (req, res) => {
   try {
-    // Get user email from query or body (for demo, should use auth in production)
-    const email = req.query.email || req.body.email;
-    if (!email) return res.status(400).json({ error: 'Email required' });
-    // Only return orders for user (if deleted by admin, they are removed from DB)
+    const email = req.query.email;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
     const orders = await Order.find({ email }).sort({ createdAt: -1 });
     res.json({ orders });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
