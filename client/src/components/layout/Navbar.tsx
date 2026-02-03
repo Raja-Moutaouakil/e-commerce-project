@@ -3,12 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/context/AuthContext';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount } = useCart();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,6 +65,36 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            {user && user.role !== "admin" && (
+              <Link
+                to="/my-orders"
+                className={cn(
+                  'nav-link text-sm font-medium tracking-wide uppercase',
+                  isActive('/my-orders') && 'active text-foreground'
+                )}
+              >
+                My Orders
+              </Link>
+            )}
+            {!user ? (
+              <>
+                <Link to="/login" className="nav-link text-sm font-medium tracking-wide uppercase">Login</Link>
+                <Link to="/register" className="nav-link text-sm font-medium tracking-wide uppercase">Register</Link>
+              </>
+            ) : (
+              <>
+                <span className="nav-link text-sm font-medium tracking-wide uppercase text-gray-700">Welcome, {user.name || user.email}</span>
+                {user.role === "admin" &&
+                  <Link to="/admin" className={cn(
+                    'nav-link text-sm font-medium tracking-wide uppercase',
+                    isActive('/admin') && 'active text-foreground'
+                  )}>
+                    Dashboard
+                  </Link>
+                }
+                <button onClick={logout} className="nav-link text-sm font-medium tracking-wide uppercase text-red-600 hover:text-red-800">Logout</button>
+              </>
+            )}
           </div>
 
           {/* Cart & Mobile Menu */}
@@ -116,6 +148,19 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            {user && (
+              <Link
+                to="/my-orders"
+                className={cn(
+                  'px-4 py-3 rounded-lg text-sm font-medium tracking-wide uppercase transition-all duration-300',
+                  isActive('/my-orders')
+                    ? 'bg-primary text-primary-foreground'
+                    : 'hover:bg-card'
+                )}
+              >
+                My Orders
+              </Link>
+            )}
           </div>
         </div>
       </div>

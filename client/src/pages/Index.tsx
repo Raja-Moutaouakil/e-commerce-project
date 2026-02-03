@@ -2,10 +2,20 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Leaf, Sparkles, Heart, Droplets } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import ProductCard from '@/components/products/ProductCard';
-import { products } from '@/data/products';
+import { useQuery } from '@tanstack/react-query';
+import { fetchProducts } from '@/api/products';
 
 const Index = () => {
-  const featuredProducts = products.filter(p => p.featured).slice(0, 4);
+  // Fetch products from API
+  const { data: products = [], isLoading, isError } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
+  // Get first 4 products
+  const featuredProducts = products.length > 4
+    ? [...products].sort(() => Math.random() - 0.5).slice(0, 4)
+    : products;
 
   return (
     <Layout>
@@ -67,7 +77,7 @@ const Index = () => {
             <div className="relative animate-fade-up stagger-2">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=1000&fit=crop"
+                  src="https://static.sayidaty.net/styles/681x999/public/2023-04/244345.jpg.webp"
                   alt="Natural hair care products"
                   className="w-full h-full object-cover"
                 />
@@ -125,9 +135,15 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
+            {isLoading ? (
+              <div className="col-span-4 text-center py-8">Loading...</div>
+            ) : isError ? (
+              <div className="col-span-4 text-center py-8 text-red-500">Failed to load products.</div>
+            ) : (
+              featuredProducts.map((product, index) => (
+                <ProductCard key={product.id || product._id} product={product} index={index} />
+              ))
+            )}
           </div>
         </div>
       </section>

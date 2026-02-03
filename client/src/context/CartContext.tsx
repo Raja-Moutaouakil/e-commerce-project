@@ -1,25 +1,15 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '@/data/products';
+import { CartContext, CART_STORAGE_KEY } from './cart.store';
+import type { CartItem } from './cart.store';
 
-export interface CartItem extends Product {
-  quantity: number;
-}
+const getImageUrl = (image: string) => {
+  if (!image) return '';
+  if (image.startsWith('http')) return image;
+  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${image}`;
+};
 
-interface CartContextType {
-  cartItems: CartItem[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateQuantity: (productId: number, quantity: number) => void;
-  clearCart: () => void;
-  cartTotal: number;
-  cartCount: number;
-}
-
-const CartContext = createContext<CartContextType | undefined>(undefined);
-
-const CART_STORAGE_KEY = 'botanica-cart';
-
-export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem(CART_STORAGE_KEY);
@@ -33,16 +23,21 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [cartItems]);
 
   const addToCart = (product: Product) => {
+    // Ensure product has 'id' (normalize from _id if needed)
+    const normalizedProduct = {
+      ...product,
+      id: product.id || product._id,
+    };
     setCartItems(prev => {
-      const existing = prev.find(item => item.id === product.id);
+      const existing = prev.find(item => item.id === normalizedProduct.id);
       if (existing) {
         return prev.map(item =>
-          item.id === product.id
+          item.id === normalizedProduct.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...normalizedProduct, quantity: 1 }];
     });
   };
 

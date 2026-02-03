@@ -10,6 +10,13 @@ import About from "./pages/About";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/admin/Dashboard";
+import RequireAuth from "./pages/admin/RequireAuth";
+import Navbar from "@/components/layout/Navbar";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import OrdersAdminTable from "./pages/admin/OrdersAdminTable";
+import MyOrders from "./pages/MyOrders";
 
 const queryClient = new QueryClient();
 
@@ -20,12 +27,19 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          
+          {/* <Navbar /> */}
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
             <Route path="/about" element={<About />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/admin" element={<RequireAuth><Dashboard /></RequireAuth>} />
+            <Route path="/admin/orders" element={<RequireAuth><OrdersAdminTable /></RequireAuth>} />
+            <Route path="/my-orders" element={<RequireAuth><MyOrders /></RequireAuth>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

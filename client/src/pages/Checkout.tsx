@@ -5,6 +5,7 @@ import Layout from '@/components/layout/Layout';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
+import client from '@/api/client';
 
 const Checkout = () => {
   const { cartItems, cartTotal, clearCart } = useCart();
@@ -35,17 +36,34 @@ const Checkout = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate order processing
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Prepare order data
+      const orderData = {
+        ...formData,
+        cartItems,
+        cartTotal,
+        shipping,
+        total,
+      };
+      // Send order to backend
+      await client.post('/api/orders', orderData);
 
-    toast({
-      title: "Order Placed Successfully!",
-      description: "Thank you for your order. We'll contact you soon for delivery.",
-    });
+      toast({
+        title: "Order Placed Successfully!",
+        description: "Thank you for your order. We'll contact you soon for delivery.",
+      });
 
-    clearCart();
-    setIsSubmitting(false);
-    navigate('/');
+      clearCart();
+      setIsSubmitting(false);
+      navigate('/my-orders');
+    } catch (error: any) {
+      toast({
+        title: "Order Failed!",
+        description: error?.response?.data?.message || error.message || "Something went wrong.",
+        variant: "destructive",
+      });
+      setIsSubmitting(false);
+    }
   };
 
   if (cartItems.length === 0) {

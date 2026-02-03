@@ -25,8 +25,7 @@ const About = () => {
             <div className="relative animate-fade-up stagger-2">
               <div className="aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop"
-                  alt="Hair care products"
+                  src="https://www.rachellebery.ca/wp-content/uploads/2018/12/katherine-hanlon-242211_560x370-560x350.jpg"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -79,21 +78,12 @@ const About = () => {
         <div className="container-main">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=400&h=500&fit=crop"
-                    alt="Natural oils"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="aspect-[3/4] rounded-2xl overflow-hidden mt-8">
-                  <img
-                    src="https://images.unsplash.com/photo-1608181831688-9b6c14230b65?w=400&h=500&fit=crop"
-                    alt="Hair butters"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="w-full h-full rounded-2xl overflow-hidden flex items-center justify-center bg-gray-100">
+                <img
+                  src="https://img.freepik.com/premium-photo/showcase-range-certified-organic-ingredient-generative-ai_1198283-11576.jpg"
+                  alt="Core Values"
+                  className="object-cover w-full h-full"
+                />
               </div>
             </div>
             <div className="order-1 lg:order-2 space-y-8">

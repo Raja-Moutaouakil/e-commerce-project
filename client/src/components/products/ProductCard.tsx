@@ -9,12 +9,20 @@ interface ProductCardProps {
   index?: number;
 }
 
+const getImageUrl = (image: string) => {
+  if (!image) return '';
+  if (image.startsWith('http')) return image;
+  // If image is a relative path, prepend server URL
+  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/uploads/${image.replace(/^\/uploads\//, '')}`;
+};
+
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
   const [isAdded, setIsAdded] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
+    console.log('Adding product to cart:', product);
     addToCart(product);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
@@ -37,7 +45,7 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           )}
         />
         <img
-          src={product.image}
+          src={getImageUrl(product.image)}
           alt={product.name}
           className={cn(
             'w-full h-full object-cover transition-transform duration-700 group-hover:scale-110',
@@ -45,12 +53,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
           )}
           onLoad={() => setImageLoaded(true)}
         />
-        
         {/* Category Badge */}
         <span className="absolute top-4 left-4 px-3 py-1 bg-background/90 backdrop-blur-sm text-xs font-medium rounded-full">
           {product.category}
         </span>
-
         {/* Quick Add Button */}
         <button
           onClick={handleAddToCart}

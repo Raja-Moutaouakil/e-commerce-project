@@ -6,6 +6,13 @@ interface CartItemProps {
   item: CartItemType;
 }
 
+// Helper to get correct image URL
+const getImageUrl = (image: string) => {
+  if (!image) return '';
+  if (image.startsWith('http')) return image;
+  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${image}`;
+};
+
 const CartItem = ({ item }: CartItemProps) => {
   const { updateQuantity, removeFromCart } = useCart();
 
@@ -14,7 +21,7 @@ const CartItem = ({ item }: CartItemProps) => {
       {/* Image */}
       <div className="w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden bg-card flex-shrink-0">
         <img
-          src={item.image}
+          src={getImageUrl(item.image)}
           alt={item.name}
           className="w-full h-full object-cover"
         />

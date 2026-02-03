@@ -1,15 +1,30 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Search, Filter } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import ProductCard from '@/components/products/ProductCard';
-import { products, categories } from '@/data/products';
+import { categories } from '@/data/products';
+import { fetchProducts } from '@/api/products';
 import { cn } from '@/lib/utils';
+
+// دالة لمعالجة مسار الصورة
+function getImageUrl(image: string): string {
+  if (!image) return '';
+  if (image.startsWith('http')) return image;
+  // إذا كانت الصورة مسار نسبي، أضف رابط السيرفر
+  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/uploads/${image.replace(/^\/uploads\//, '')}`;
+}
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  const filteredProducts = products.filter(product => {
+  const { data: products = [], isLoading, isError } = useQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
+  const filteredProducts = products.filter((product: any) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !selectedCategory || product.category === selectedCategory;
@@ -83,14 +98,26 @@ const Products = () => {
 
           {/* Results Count */}
           <p className="text-sm text-muted-foreground mb-6">
-            Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+            {isLoading
+              ? 'Loading products...'
+              : isError
+              ? 'Failed to load products.'
+              : `Showing ${filteredProducts.length} ${filteredProducts.length === 1 ? 'product' : 'products'}`}
           </p>
 
           {/* Product Grid */}
-          {filteredProducts.length > 0 ? (
+          {isLoading ? (
+            <div className="text-center py-20">
+              <p className="text-xl font-serif text-muted-foreground">Loading products...</p>
+            </div>
+          ) : isError ? (
+            <div className="text-center py-20">
+              <p className="text-xl font-serif text-muted-foreground">Failed to load products.</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} />
+              {filteredProducts.map((product: any, index: number) => (
+                <ProductCard key={product._id || product.id} product={{...product, image: getImageUrl(product.image)}} index={index} />
               ))}
             </div>
           ) : (
