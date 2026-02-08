@@ -2,12 +2,13 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 
-const app = express();
+const allowedOrigins = [
+  'https://botanica-hair.vercel.app',
+  'https://e-server-kappa.vercel.app'
+];
 
 app.use(cors({
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());
