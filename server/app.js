@@ -11,10 +11,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
+    console.log('Request Origin:', origin); // Debug log
     if (!origin) return callback(null, true);
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     } else {
+      console.log('CORS Rejected Origin:', origin); // Debug log
       return callback(new Error('Not allowed by CORS'));
     }
   },
