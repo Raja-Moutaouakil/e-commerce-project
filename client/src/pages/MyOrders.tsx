@@ -63,7 +63,7 @@ const MyOrders = () => {
                         </td>
                         <td className="py-4 px-6 text-center text-base text-gray-700">{item.quantity || 1}</td>
                         <td className="py-4 px-6 text-center text-base text-green-600 font-semibold">
-                          {typeof item.price === "number" ? `$${(item.price * 0.10).toFixed(2)}` : "-"}
+                          {typeof item.price === "number" ? `$${item.price.toFixed(2)}` : "-"}
                         </td>
                         <td className="py-4 px-6 text-center">
                           <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${order.delivered ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
