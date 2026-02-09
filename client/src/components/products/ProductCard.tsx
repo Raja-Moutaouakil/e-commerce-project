@@ -12,8 +12,15 @@ interface ProductCardProps {
 const getImageUrl = (image: string) => {
   if (!image) return '';
   if (image.startsWith('http')) return image;
-  // If image is a relative path, prepend server URL
-  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/uploads/${image.replace(/^\/uploads\//, '')}`;
+  const base = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  // Normalize: if it doesn't start with /, add it
+  let p = image.startsWith('/') ? image : `/${image}`;
+  // If path does not already target /uploads, assume it’s a filename under /uploads
+  if (!p.startsWith('/uploads/')) {
+    const name = p.replace(/^\/+/, '');
+    p = `/uploads/${name}`;
+  }
+  return `${base}${p}`;
 };
 
 const ProductCard = ({ product, index = 0 }: ProductCardProps) => {

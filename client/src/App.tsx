@@ -14,7 +14,6 @@ import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
 import RequireAuth from "./pages/admin/RequireAuth";
 import RequireAdmin from "./pages/admin/RequireAdmin";
-import Navbar from "@/components/layout/Navbar";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import OrderAdminTable from "./pages/admin/OrderAdminTable";
@@ -30,7 +29,6 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Navbar />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/products" element={<Products />} />
