@@ -1,2 +1,4 @@
+const app = require('../app');
 
-JavaScript.module.exports(): const app = require('../app'); module.exports = (req, res) => app(req, res);
+// Vercel catch‑all serverless function for /api/*
+module.exports = (req, res) => app(req, res);
