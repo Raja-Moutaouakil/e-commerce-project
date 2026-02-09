@@ -57,6 +57,11 @@ try {
   // ignore if adminRoutes not present
 }
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Health check for deployment verification
+app.get('/api/health', (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.status(200).json({ status: 'ok', time: new Date().toISOString() });
+});
 // Silence favicon requests (API does not serve a site icon)
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/', (req, res) => {
