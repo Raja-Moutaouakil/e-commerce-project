@@ -42,6 +42,8 @@ try {
   // ignore if adminRoutes not present
 }
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Silence favicon requests (API does not serve a site icon)
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.get('/', (req, res) => {
   res.send('Botanica API running');
 });
