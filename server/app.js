@@ -4,6 +4,18 @@ const cors = require('cors');
 
 const app = express();
 
+// Simple request logger to help diagnose production issues (origin, method, path)
+app.use((req, res, next) => {
+  try {
+    const origin = req.headers.origin || '-';
+    const ua = req.headers['user-agent'] || '-';
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl} | Origin: ${origin} | UA: ${ua}`);
+  } catch (_) {
+    // ignore logging errors
+  }
+  next();
+});
+
 // CORS: allow configured client origins in production; default to common localhost origins in dev
 const defaultOrigins = [
   'http://localhost:3000',
@@ -20,9 +32,12 @@ const envOrigins = (process.env.CLIENT_ORIGIN || '')
   .filter(Boolean);
 const allowedOrigins = envOrigins.length ? envOrigins : defaultOrigins;
 
+console.log('CORS allowed origins:', allowedOrigins);
+
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log('CORS request Origin:', origin);
       if (!origin) return callback(null, true); // allow tools/curl
       if (allowedOrigins.includes(origin)) return callback(null, true);
       return callback(new Error('Not allowed by CORS'));
