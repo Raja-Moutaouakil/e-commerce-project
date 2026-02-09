@@ -1,20 +1,23 @@
 const multer = require('multer');
+const path = require('path');
 
-// Use memory storage for Vercel/serverless compatibility (no filesystem writes)
-const storage = multer.memoryStorage();
+// Disk storage for Render/Node (persistent filesystem during container lifetime)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
 
 const fileFilter = (req, file, cb) => {
-  // Accept images only
   if (!file.mimetype || !file.mimetype.startsWith('image/')) {
     return cb(new Error('Only image files are allowed!'), false);
   }
   cb(null, true);
 };
 
-const limits = {
-  fileSize: 10 * 1024 * 1024, // 10MB max
-};
-
-const upload = multer({ storage, fileFilter, limits });
+const upload = multer({ storage, fileFilter });
 
 module.exports = upload;
