@@ -20,7 +20,16 @@ interface Product {
   countInStock?: number;
 }
 
+type AdminProduct = Omit<Product, "image"> & { image?: string | File };
+
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+const getImageUrl = (image?: string) => {
+  if (!image) return "";
+  if (image.startsWith("http")) return image;
+  // Support both "/uploads/..." and "uploads/..." values
+  return `${API_URL}${image.startsWith('/') ? image : '/' + image}`;
+};
 
 const ProductAdminTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,8 +38,8 @@ const ProductAdminTable: React.FC = () => {
 
   // CRUD states
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editData, setEditData] = useState<Partial<Product>>({});
-  const [newProduct, setNewProduct] = useState<Partial<Product>>({});
+  const [editData, setEditData] = useState<Partial<AdminProduct>>({});
+  const [newProduct, setNewProduct] = useState<Partial<AdminProduct>>({});
 
   // Fetch products
   const fetchProducts = async () => {
@@ -61,8 +70,10 @@ const ProductAdminTable: React.FC = () => {
       formData.append('price', String(newProduct.price));
       formData.append('category', newProduct.category as string);
       formData.append('countInStock', String(newProduct.countInStock || 0));
-      if (newProduct.image && newProduct.image instanceof File) {
+      if (newProduct.image && typeof newProduct.image !== 'string') {
         formData.append('image', newProduct.image);
+      } else if (typeof newProduct.image === 'string' && newProduct.image.startsWith('http')) {
+        formData.append('imageUrl', newProduct.image);
       }
       const res = await client.post(`/api/products`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -93,8 +104,10 @@ const ProductAdminTable: React.FC = () => {
       formData.append('price', String(editData.price));
       formData.append('category', editData.category as string);
       formData.append('countInStock', String(editData.countInStock || 0));
-      if (editData.image && editData.image instanceof File) {
+      if (editData.image && typeof editData.image !== 'string') {
         formData.append('image', editData.image);
+      } else if (typeof editData.image === 'string' && editData.image.startsWith('http')) {
+        formData.append('imageUrl', editData.image);
       }
       const res = await client.put(`/api/products/${editingId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -155,8 +168,15 @@ const ProductAdminTable: React.FC = () => {
                         accept="image/*"
                         onChange={e => setEditData({ ...editData, image: e.target.files?.[0] })}
                       />
+                      <input
+                        type="url"
+                        placeholder="Or paste image URL"
+                        className="input-field mt-2 w-full"
+                        value={typeof editData.image === 'string' ? editData.image : ''}
+                        onChange={(e) => setEditData({ ...editData, image: e.target.value })}
+                      />
                       {product.image && (
-                        <img src={`${API_URL}${product.image}`} alt="product" className="h-12 w-12 object-cover inline-block align-middle mt-2" />
+                        <img src={getImageUrl(product.image)} alt="product" className="h-12 w-12 object-cover inline-block align-middle mt-2" />
                       )}
                     </div>
                   </TableCell>
@@ -164,7 +184,7 @@ const ProductAdminTable: React.FC = () => {
                     <div className="bg-gray-50 border rounded-lg p-2 flex items-center justify-center min-h-[60px]">
                       <span className="flex items-center gap-2">
                         {product.image && (
-                          <img src={`${API_URL}${product.image}`} alt="product" className="h-10 w-10 object-cover rounded-full" />
+                          <img src={getImageUrl(product.image)} alt="product" className="h-10 w-10 object-cover rounded-full" />
                         )}
                         <input
                           value={editData.name || ""}
@@ -207,7 +227,7 @@ const ProductAdminTable: React.FC = () => {
                   <TableCell className="pt-4 text-center align-middle">
                     <div className="bg-gray-50 border rounded-lg p-2 flex items-center justify-center min-h-[60px]">
                       {product.image ? (
-                        <img src={`${API_URL}${product.image}`} alt="product" className="h-10 w-10 object-cover rounded-full" />
+                        <img src={getImageUrl(product.image)} alt="product" className="h-10 w-10 object-cover rounded-full" />
                       ) : (
                         <span className="text-muted-foreground">No image</span>
                       )}
@@ -255,6 +275,13 @@ const ProductAdminTable: React.FC = () => {
                     type="file"
                     accept="image/*"
                     onChange={e => setNewProduct({ ...newProduct, image: e.target.files?.[0] })}
+                  />
+                  <input
+                    type="url"
+                    placeholder="Or paste image URL"
+                    className="input-field mt-2 w-full"
+                    value={typeof newProduct.image === 'string' ? newProduct.image : ''}
+                    onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
                   />
                   {newProduct.image && typeof newProduct.image === 'string' && (
                     <img src={newProduct.image.startsWith('http') ? newProduct.image : `${API_URL}${newProduct.image}`} alt="product" className="h-12 mt-2" />
