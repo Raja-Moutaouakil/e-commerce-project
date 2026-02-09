@@ -3,19 +3,27 @@ const { uploadBuffer, isConfigured } = require('../config/cloudinary');
 
 // GET all products
 exports.getProducts = async (req, res) => {
-  const products = await Product.find();
-  res.json(products);
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (error) {
+    console.error('getProducts error:', error);
+    res.status(500).json({ message: 'Failed to fetch products' });
+  }
 };
 
 // GET single product
 exports.getProductById = async (req, res) => {
-  const product = await Product.findById(req.params.id);
-
-  if (!product) {
-    return res.status(404).json({ message: "Product not found" });
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    res.json(product);
+  } catch (error) {
+    console.error('getProductById error:', error);
+    res.status(500).json({ message: 'Failed to fetch product' });
   }
-
-  res.json(product);
 };
 
 // CREATE product
