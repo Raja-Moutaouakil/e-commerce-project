@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import client from "@/api/client";
 import {
   Table,
   TableHeader,
@@ -12,18 +12,21 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
+type OrderItem = {
+  product?: string;
+  name: string;
+  price: number;
+  quantity: number;
+  image?: string;
+};
+
 interface Order {
   _id: string;
   name: string;
   email: string;
   phone: string;
   address: string;
-  cartItems: Array<{
-    product: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }>;
+  cartItems: OrderItem[];
   total: number;
   shipping: number;
   createdAt: string;
@@ -38,11 +41,12 @@ const OrderAdminTable: React.FC = () => {
   const fetchOrders = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_URL}/api/orders`);
+      const res = await client.get(`/api/orders`);
       setOrders(res.data);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch orders");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to fetch orders";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -50,10 +54,11 @@ const OrderAdminTable: React.FC = () => {
 
   const handleDeliver = async (id: string) => {
     try {
-      await axios.put(`${API_URL}/api/orders/${id}/deliver`);
+      await client.put(`/api/orders/${id}/deliver`);
       setOrders(orders.map(order => (order._id === id ? { ...order, delivered: true } : order)));
-    } catch (err: any) {
-      setError(err.message || "Failed to update order");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to update order";
+      setError(msg);
     }
   };
 
@@ -61,10 +66,11 @@ const OrderAdminTable: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
     try {
-      await axios.delete(`${API_URL}/api/orders/${id}`);
+      await client.delete(`/api/orders/${id}`);
       setOrders(orders.filter(order => order._id !== id));
-    } catch (err: any) {
-      setError(err.message || "Failed to delete order");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to delete order";
+      setError(msg);
     }
   };
   useEffect(() => {

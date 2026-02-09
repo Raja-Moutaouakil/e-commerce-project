@@ -18,10 +18,12 @@ const Login = () => {
     setLoading(true);
     setError("");
     try {
-      await login(form);
-      navigate("/");
-    } catch (err: any) {
-      setError(err?.message || "Login failed");
+      const res = await login(form);
+      if (res?.user?.role === 'admin') navigate('/admin');
+      else navigate("/");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Login failed';
+      setError(msg);
     }
     setLoading(false);
   };
@@ -40,6 +42,7 @@ const Login = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             required
+            autoComplete="username"
           />
         </div>
         <div className="mb-6">
@@ -51,6 +54,7 @@ const Login = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             required
+            autoComplete="current-password"
           />
         </div>
         <button

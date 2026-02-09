@@ -1,13 +1,19 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import * as authApi from '@/api/auth';
 
-type User = any | null;
+type User = {
+  _id?: string;
+  id?: string;
+  name: string;
+  email: string;
+  role?: 'user' | 'admin';
+} | null;
 
 type AuthContextType = {
   user: User;
   token: string | null;
-  login: (data: { email: string; password: string }) => Promise<void>;
-  register: (data: { name: string; email: string; password: string }) => Promise<void>;
+  login: (data: { email: string; password: string }) => Promise<{ token: string; user: NonNullable<User> }>;
+  register: (data: { name: string; email: string; password: string }) => Promise<{ token: string; user: NonNullable<User> }>;
   logout: () => void;
 };
 
@@ -34,12 +40,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     else localStorage.removeItem('user');
   }, [user]);
 
+  // Hydrate user from server if token exists but user is empty (page refresh)
+  useEffect(() => {
+    const hasToken = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    if (hasToken && !user) {
+      authApi
+        .getMe()
+        .then((res) => setUser(res.user || null))
+        .catch(() => {
+          // invalid token
+          setToken(null);
+          setUser(null);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const login = async (data: { email: string; password: string }) => {
     const res = await authApi.login(data);
     if (res?.token) {
       setToken(res.token);
       setUser(res.user || null);
     }
+    return res;
   };
 
   const register = async (data: { name: string; email: string; password: string }) => {
@@ -48,6 +71,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setToken(res.token);
       setUser(res.user || null);
     }
+    return res;
   };
 
   const logout = () => {

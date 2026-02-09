@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
+import client from "@/api/client";
 
 const MyOrders = () => {
   const { user } = useAuth();
@@ -9,20 +10,24 @@ const MyOrders = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!user?.email) return;
-    fetch(`/api/orders/my-orders?email=${encodeURIComponent(user.email)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch orders");
-        return res.json();
-      })
-      .then((data) => {
-        setOrders(data.orders || []);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    let mounted = true;
+    (async () => {
+      if (!user) return;
+      try {
+        const res = await client.get('/api/orders/my-orders');
+        if (mounted) {
+          setOrders(res.data?.orders || []);
+          setLoading(false);
+        }
+      } catch (err: unknown) {
+        if (mounted) {
+          const msg = err instanceof Error ? err.message : 'Failed to fetch orders';
+          setError(msg);
+          setLoading(false);
+        }
+      }
+    })();
+    return () => { mounted = false; };
   }, [user]);
 
   return (
@@ -63,7 +68,7 @@ const MyOrders = () => {
                         </td>
                         <td className="py-4 px-6 text-center text-base text-gray-700">{item.quantity || 1}</td>
                         <td className="py-4 px-6 text-center text-base text-green-600 font-semibold">
-                          {typeof item.price === "number" ? `$${(item.price * 0.10).toFixed(2)}` : "-"}
+                          {typeof item.price === "number" ? `$${item.price.toFixed(2)}` : "-"}
                         </td>
                         <td className="py-4 px-6 text-center">
                           <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${order.delivered ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>

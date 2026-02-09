@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import client from "@/api/client";
 import {
   Table,
   TableHeader,
@@ -36,11 +36,12 @@ const ProductAdminTable: React.FC = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${API_URL}/api/products`);
+      const res = await client.get(`/api/products`);
       setProducts(res.data);
       setError(null);
-    } catch (err: any) {
-      setError(err.message || "Failed to fetch products");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to fetch products";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -63,13 +64,16 @@ const ProductAdminTable: React.FC = () => {
       if (newProduct.image && newProduct.image instanceof File) {
         formData.append('image', newProduct.image);
       }
-      const res = await axios.post(`${API_URL}/api/products`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const res = await client.post(`/api/products`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setProducts([...products, res.data]);
       setNewProduct({});
-    } catch (err: any) {
-      setError(err.message || "Failed to create product");
+    } catch (err: unknown) {
+      const msg = err && typeof err === 'object' && (err as any).response?.status === 403
+        ? 'Forbidden: Admin access required'
+        : err instanceof Error ? err.message : "Failed to create product";
+      setError(msg);
     }
   };
 
@@ -92,14 +96,17 @@ const ProductAdminTable: React.FC = () => {
       if (editData.image && editData.image instanceof File) {
         formData.append('image', editData.image);
       }
-      const res = await axios.put(`${API_URL}/api/products/${editingId}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+      const res = await client.put(`/api/products/${editingId}`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
       setProducts(products.map(p => (p._id === editingId ? res.data : p)));
       setEditingId(null);
       setEditData({});
-    } catch (err: any) {
-      setError(err.message || "Failed to update product");
+    } catch (err: unknown) {
+      const msg = err && typeof err === 'object' && (err as any).response?.status === 403
+        ? 'Forbidden: Admin access required'
+        : err instanceof Error ? err.message : "Failed to update product";
+      setError(msg);
     }
   };
 
@@ -107,11 +114,14 @@ const ProductAdminTable: React.FC = () => {
   const handleDelete = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await axios.delete(`${API_URL}/api/products/${id}`);
+      await client.delete(`/api/products/${id}`);
       // بعد الحذف، أعد جلب المنتجات من السيرفر
       fetchProducts();
-    } catch (err: any) {
-      setError(err.message || "Failed to delete product");
+    } catch (err: unknown) {
+      const msg = err && typeof err === 'object' && (err as any).response?.status === 403
+        ? 'Forbidden: Admin access required'
+        : err instanceof Error ? err.message : "Failed to delete product";
+      setError(msg);
     }
   };
 

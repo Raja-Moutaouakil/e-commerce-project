@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { useAuth } from '@/context/AuthContext';
 import ProductAdminTable from './ProductAdminTable';
-import axios from 'axios';
 import OrderAdminTable from './OrderAdminTable';
+import client from '@/api/client';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+type Order = {
+  _id: string;
+  total?: number;
+};
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -17,9 +20,10 @@ const Dashboard: React.FC = () => {
     // Fetch orders count and revenue
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/orders`);
-        setOrdersCount(res.data.length);
-        const totalRevenue = res.data.reduce((sum: number, order: any) => sum + (order.total || 0), 0);
+        const res = await client.get<Order[]>(`/api/orders`);
+        const orders = res.data || [];
+        setOrdersCount(orders.length);
+        const totalRevenue = orders.reduce((sum: number, order: Order) => sum + (order.total || 0), 0);
         setRevenue(totalRevenue);
       } catch (err) {
         setOrdersCount(null);
@@ -29,8 +33,8 @@ const Dashboard: React.FC = () => {
     // Fetch products count
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`${API_URL}/api/products`);
-        setProductsCount(res.data.length);
+        const res = await client.get(`/api/products`);
+        setProductsCount(Array.isArray(res.data) ? res.data.length : 0);
       } catch (err) {
         setProductsCount(null);
       }

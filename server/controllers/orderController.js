@@ -2,11 +2,16 @@ const Order = require('../models/Order');
 
 exports.createOrder = async (req, res) => {
   try {
-    const order = new Order(req.body);
+    if (!req.user?.email) return res.status(401).json({ message: 'Unauthorized' });
+    const payload = {
+      ...req.body,
+      email: req.user.email, // enforce authenticated email
+    };
+    const order = new Order(payload);
     await order.save();
     res.status(201).json(order);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
@@ -21,11 +26,8 @@ exports.getOrders = async (req, res) => {
 
 exports.getMyOrders = async (req, res) => {
   try {
-    const email = req.query.email;
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
-    const orders = await Order.find({ email }).sort({ createdAt: -1 });
+    if (!req.user?.email) return res.status(401).json({ message: 'Unauthorized' });
+    const orders = await Order.find({ email: req.user.email }).sort({ createdAt: -1 });
     res.json({ orders });
   } catch (error) {
     res.status(500).json({ message: error.message });

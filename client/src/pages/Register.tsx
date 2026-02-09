@@ -20,8 +20,9 @@ const Register = () => {
     try {
       await register(form);
       navigate("/");
-    } catch (err: any) {
-      setError(err?.message || "Registration failed");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Registration failed';
+      setError(msg);
     }
     setLoading(false);
   };
@@ -51,6 +52,7 @@ const Register = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             required
+            autoComplete="username"
           />
         </div>
         <div className="mb-6">
@@ -62,6 +64,7 @@ const Register = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded"
             required
+            autoComplete="new-password"
           />
         </div>
         <button

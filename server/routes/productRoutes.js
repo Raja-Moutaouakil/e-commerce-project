@@ -1,6 +1,8 @@
 const router = require('express').Router();
 
 const upload = require('../middleware/upload');
+const auth = require('../middleware/auth');
+const { ensureAdmin } = require('../middleware/auth');
 const {
   getProducts,
   getProductById,
@@ -11,8 +13,8 @@ const {
 
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.post('/', upload.single('image'), createProduct);
-router.put('/:id', upload.single('image'), updateProduct);
-router.delete('/:id', deleteProduct);
+router.post('/', auth, ensureAdmin, upload.single('image'), createProduct);
+router.put('/:id', auth, ensureAdmin, upload.single('image'), updateProduct);
+router.delete('/:id', auth, ensureAdmin, deleteProduct);
 
 module.exports = router;
