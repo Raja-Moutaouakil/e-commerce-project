@@ -1,8 +1,19 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 
 const app = express();
+
+// Ensure DB connection for serverless (Vercel) and local when app.js is loaded directly
+if (mongoose.connection.readyState === 0) {
+  try {
+    connectDB();
+  } catch (err) {
+    console.error('DB connection initialization failed:', err);
+  }
+}
 
 // Simple request logger to help diagnose production issues (origin, method, path)
 app.use((req, res, next) => {
